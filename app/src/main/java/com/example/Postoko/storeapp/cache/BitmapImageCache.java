@@ -26,6 +26,7 @@ public class BitmapImageCache {
 
         //Initializing the Memory Cache
         mMemoryCache = new LruCache<String, Bitmap>(cacheSizeSelected) {
+
             @Override
             protected int sizeOf(String key, Bitmap bitmap) {
                 //Size of the cache now returned will be the size of the entries

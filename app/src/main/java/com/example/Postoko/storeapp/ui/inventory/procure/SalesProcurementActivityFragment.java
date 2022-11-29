@@ -1,18 +1,3 @@
-/*
- * Copyright 2018 Kaushik N. Sanji
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package com.example.Postoko.storeapp.ui.inventory.procure;
 
@@ -145,12 +130,7 @@ public class SalesProcurementActivityFragment extends Fragment implements SalesP
         return rootView;
     }
 
-    /**
-     * Called when the fragment is visible to the user and actively running.
-     * This is generally
-     * tied to {@link android.support.v4.app.FragmentActivity#onResume() Activity.onResume} of the containing
-     * Activity's lifecycle.
-     */
+
     @Override
     public void onResume() {
         super.onResume();
@@ -159,19 +139,7 @@ public class SalesProcurementActivityFragment extends Fragment implements SalesP
         mPresenter.start();
     }
 
-    /**
-     * Called when the fragment's activity has been created and this
-     * fragment's view hierarchy instantiated.  It can be used to do final
-     * initialization once these pieces are in place, such as retrieving
-     * views or restoring state.  It is also useful for fragments that use
-     * {@link #setRetainInstance(boolean)} to retain their instance,
-     * as this callback tells the fragment when it is fully associated with
-     * the new activity instance.  This is called after {@link #onCreateView}
-     * and before {@link #onViewStateRestored(Bundle)}.
-     *
-     * @param savedInstanceState If the fragment is being re-created from
-     *                           a previous saved state, this is the state.
-     */
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -186,21 +154,7 @@ public class SalesProcurementActivityFragment extends Fragment implements SalesP
         }
     }
 
-    /**
-     * Called to ask the fragment to save its current dynamic state, so it
-     * can later be reconstructed in a new instance of its process is
-     * restarted.  If a new instance of the fragment later needs to be
-     * created, the data you place in the Bundle here will be available
-     * in the Bundle given to {@link #onCreate(Bundle)},
-     * {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}, and
-     * {@link #onActivityCreated(Bundle)}.
-     * <p>
-     * <p>This corresponds to {@link android.support.v4.app.FragmentActivity#onSaveInstanceState(Bundle)
-     * Activity.onSaveInstanceState(Bundle)} and most of the discussion there
-     * applies here as well.
-     *
-     * @param outState Bundle in which to place your saved state.
-     */
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -659,14 +613,7 @@ public class SalesProcurementActivityFragment extends Fragment implements SalesP
      */
     private class SupplierPhoneListItemUserActionsListener implements SupplierPhoneListUserActionsListener {
 
-        /**
-         * Callback Method of {@link SupplierPhoneListUserActionsListener} invoked when
-         * the user clicks on any of the Phone Contacts shown. This should launch an Intent
-         * to start the Phone Activity passing in the number {@link SupplierContact#mValue}
-         *
-         * @param itemPosition    The adapter position of the Item View clicked
-         * @param supplierContact The {@link SupplierContact} associated with the Item View clicked.
-         */
+
         @Override
         public void onPhoneClicked(int itemPosition, SupplierContact supplierContact) {
             //Delegating to the Presenter to handle the event

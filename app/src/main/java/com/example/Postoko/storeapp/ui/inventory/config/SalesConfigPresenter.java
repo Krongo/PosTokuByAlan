@@ -1,5 +1,3 @@
-/*
- */
 
 package com.example.Postoko.storeapp.ui.inventory.config;
 
@@ -26,8 +24,7 @@ import com.example.Postoko.storeapp.ui.suppliers.config.SupplierConfigActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- */
+
 public class SalesConfigPresenter implements SalesConfigContract.Presenter {
 
     //Constant used for Logs

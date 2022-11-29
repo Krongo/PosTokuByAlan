@@ -1,18 +1,3 @@
-/*
- * Copyright 2018 Kaushik N. Sanji
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package com.example.Postoko.storeapp.ui.inventory;
 
@@ -42,6 +27,7 @@ import com.example.Postoko.storeapp.data.local.contracts.SalesContract;
 import com.example.Postoko.storeapp.data.local.contracts.StoreContract;
 import com.example.Postoko.storeapp.data.local.contracts.SupplierContract;
 import com.example.Postoko.storeapp.data.local.models.SalesLite;
+import com.example.Postoko.storeapp.ui.HomeActivity;
 import com.example.Postoko.storeapp.ui.inventory.config.SalesConfigActivity;
 import com.example.Postoko.storeapp.ui.products.config.ProductConfigActivity;
 import com.example.Postoko.storeapp.utils.AppConstants;
@@ -207,8 +193,8 @@ public class SalesListPresenter implements SalesListContract.Presenter,
     }
 
     /**
-     * Method invoked by the {@link com.example.Postoko.storeapp.ui.MainActivity} displaying the ViewPager.
-     * This is called when the User clicks on the Fab "+" button shown by the {@link com.example.Postoko.storeapp.ui.MainActivity}
+     * Method invoked by the {@link HomeActivity} displaying the ViewPager.
+     * This is called when the User clicks on the Fab "+" button shown by the {@link HomeActivity}
      */
     @Override
     public void onFabAddClicked() {
@@ -216,8 +202,8 @@ public class SalesListPresenter implements SalesListContract.Presenter,
     }
 
     /**
-     * Method invoked by the {@link com.example.Postoko.storeapp.ui.MainActivity} displaying the ViewPager.
-     * This is called when the User clicks on the Refresh Menu icon shown by the {@link com.example.Postoko.storeapp.ui.MainActivity}
+     * Method invoked by the {@link HomeActivity} displaying the ViewPager.
+     * This is called when the User clicks on the Refresh Menu icon shown by the {@link HomeActivity}
      */
     @Override
     public void onRefreshMenuClicked() {
@@ -459,15 +445,7 @@ public class SalesListPresenter implements SalesListContract.Presenter,
         });
     }
 
-    /**
-     * Method invoked when the user clicks on the "Sell 1" button.
-     * This should decrease the Available Quantity from the
-     * Top Supplier {@link SalesLite#mSupplierAvailableQuantity} by 1, indicating one Quantity
-     * of the Product was sold/shipped.
-     *
-     * @param salesLite The {@link SalesLite} instance containing the Product Supplier
-     *                  information with availability.
-     */
+
     @Override
     public void sellOneQuantity(SalesLite salesLite) {
         //Display the Progress Indicator

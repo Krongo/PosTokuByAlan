@@ -1,19 +1,3 @@
-/*
- * Copyright 2018 Kaushik N. Sanji
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.example.Postoko.storeapp.ui.suppliers.config;
 
 
@@ -129,17 +113,9 @@ public class SupplierConfigActivityFragment extends Fragment
     //Stores whether the Supplier Name was entered or not.
     //Used for monitoring unsaved progress.
     private boolean mIsSupplierNameEntered;
-    /**
-     * The {@link AlertDialog} Click Listener for the Supplier Delete Menu.
-     */
+
     private DialogInterface.OnClickListener mSupplierDeleteDialogOnClickListener = new DialogInterface.OnClickListener() {
-        /**
-         * This method will be invoked when a button in the dialog is clicked.
-         *
-         * @param dialog the dialog that received the click
-         * @param which  the button that was clicked (ex.
-         *               {@link DialogInterface#BUTTON_POSITIVE}) or the position
-         */
+
         @Override
         public void onClick(DialogInterface dialog, int which) {
             //Taking action based on the button clicked
@@ -165,18 +141,10 @@ public class SupplierConfigActivityFragment extends Fragment
             }
         }
     };
-    /**
-     * The {@link AlertDialog} Click Listener for the Unsaved changes dialog
-     */
+
     private DialogInterface.OnClickListener mUnsavedDialogOnClickListener = new DialogInterface.OnClickListener() {
 
-        /**
-         * This method will be invoked when a button in the dialog is clicked.
-         *
-         * @param dialog the dialog that received the click
-         * @param which  the button that was clicked (ex.
-         *               {@link DialogInterface#BUTTON_POSITIVE}) or the position
-         */
+
         @Override
         public void onClick(DialogInterface dialog, int which) {
             //Taking action based on the button clicked
@@ -213,23 +181,11 @@ public class SupplierConfigActivityFragment extends Fragment
         }
     };
 
-    /**
-     * Mandatory Empty Constructor of {@link SupplierConfigActivityFragment}.
-     * This is required by the {@link android.support.v4.app.FragmentManager} to instantiate
-     * the fragment (e.g. upon screen orientation changes).
-     */
+
     public SupplierConfigActivityFragment() {
     }
 
-    /**
-     * Static Factory Constructor that creates an instance of {@link SupplierConfigActivityFragment}
-     * using the provided {@code supplierId}
-     *
-     * @param supplierId The Integer value of the Supplier Id of an existing Supplier;
-     *                   or {@link SupplierConfigContract#NEW_SUPPLIER_INT} if it is
-     *                   for a New Supplier Entry.
-     * @return Instance of {@link SupplierConfigActivityFragment}
-     */
+
     public static SupplierConfigActivityFragment newInstance(int supplierId) {
         //Saving the arguments passed, in a Bundle: START
         Bundle args = new Bundle(1);
@@ -245,12 +201,7 @@ public class SupplierConfigActivityFragment extends Fragment
         return fragment;
     }
 
-    /**
-     * Called to do initial creation of a fragment.
-     *
-     * @param savedInstanceState If the fragment is being re-created from
-     *                           a previous saved state, this is the state.
-     */
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -258,24 +209,7 @@ public class SupplierConfigActivityFragment extends Fragment
         setHasOptionsMenu(true);
     }
 
-    /**
-     * Called to have the fragment instantiate its user interface view.
-     * This is optional, and non-graphical fragments can return null (which
-     * is the default implementation).  This will be called between
-     * {@link #onCreate(Bundle)} and {@link #onActivityCreated(Bundle)}.
-     * <p>
-     * <p>If you return a View from here, you will later be called in
-     * {@link #onDestroyView} when the view is being released.
-     *
-     * @param inflater           The LayoutInflater object that can be used to inflate
-     *                           any views in the fragment,
-     * @param container          If non-null, this is the parent view that the fragment's
-     *                           UI should be attached to.  The fragment should not add the view itself,
-     *                           but this can be used to generate the LayoutParams of the view.
-     * @param savedInstanceState If non-null, this fragment is being re-constructed
-     *                           from a previous saved state as given here.
-     * @return Returns the View for the fragment's UI ('R.layout.fragment_supplier_config')
-     */
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -325,30 +259,13 @@ public class SupplierConfigActivityFragment extends Fragment
         return rootView;
     }
 
-    /**
-     * Method that registers the Presenter {@code presenter} with the View implementing
-     * {@link com.example.Postoko.storeapp.ui.BaseView}
-     *
-     * @param presenter Presenter instance implementing the {@link com.example.Postoko.storeapp.ui.BasePresenter}
-     */
+
     @Override
     public void setPresenter(SupplierConfigContract.Presenter presenter) {
         mPresenter = presenter;
     }
 
-    /**
-     * Called when the fragment's activity has been created and this
-     * fragment's view hierarchy instantiated.  It can be used to do final
-     * initialization once these pieces are in place, such as retrieving
-     * views or restoring state.  It is also useful for fragments that use
-     * {@link #setRetainInstance(boolean)} to retain their instance,
-     * as this callback tells the fragment when it is fully associated with
-     * the new activity instance.  This is called after {@link #onCreateView}
-     * and before {@link #onViewStateRestored(Bundle)}.
-     *
-     * @param savedInstanceState If the fragment is being re-created from
-     *                           a previous saved state, this is the state.
-     */
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -432,15 +349,7 @@ public class SupplierConfigActivityFragment extends Fragment
         }
     }
 
-    /**
-     * This hook is called whenever an item in your options menu is selected.
-     * The default implementation simply returns false to have the normal
-     * processing happen.
-     *
-     * @param item The menu item that was selected.
-     * @return boolean Return false to allow normal menu processing to
-     * proceed, true to consume it here.
-     */
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //Handling based on the Menu item selected

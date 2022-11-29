@@ -2,6 +2,7 @@
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/ImagePickerCardStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -42,7 +43,8 @@
             android:layout_height="@dimen/match_constraint_0dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintBottom_toBottomOf="@+id/image_picker_camera"
-            app:layout_constraintTop_toTopOf="@+id/image_picker_camera" />
+            app:layout_constraintTop_toTopOf="@+id/image_picker_camera"
+            tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/image_picker_gallery"

@@ -19,7 +19,12 @@ package com.example.Postoko.storeapp.data.local.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-
+/**
+ * Parcelable and Cloneable Model Class for storing and updating the Product Image
+ * details of the Product.
+ *
+ * @author Kaushik N Sanji
+ */
 public class ProductImage implements Parcelable, Cloneable {
 
     /**

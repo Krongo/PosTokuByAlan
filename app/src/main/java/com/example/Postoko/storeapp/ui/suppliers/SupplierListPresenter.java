@@ -25,6 +25,7 @@ import com.example.Postoko.storeapp.data.local.contracts.SalesContract;
 import com.example.Postoko.storeapp.data.local.contracts.StoreContract;
 import com.example.Postoko.storeapp.data.local.contracts.SupplierContract;
 import com.example.Postoko.storeapp.data.local.models.SupplierLite;
+import com.example.Postoko.storeapp.ui.HomeActivity;
 import com.example.Postoko.storeapp.ui.suppliers.config.SupplierConfigActivity;
 import com.example.Postoko.storeapp.utils.AppConstants;
 
@@ -324,8 +325,8 @@ public class SupplierListPresenter implements SupplierListContract.Presenter,
     }
 
     /**
-     * Method invoked by the {@link com.example.Postoko.storeapp.ui.MainActivity} displaying the ViewPager.
-     * This is called when the User clicks on the Fab "+" button shown by the {@link com.example.Postoko.storeapp.ui.MainActivity}
+     * Method invoked by the {@link HomeActivity} displaying the ViewPager.
+     * This is called when the User clicks on the Fab "+" button shown by the {@link HomeActivity}
      */
     @Override
     public void onFabAddClicked() {
@@ -333,8 +334,8 @@ public class SupplierListPresenter implements SupplierListContract.Presenter,
     }
 
     /**
-     * Method invoked by the {@link com.example.Postoko.storeapp.ui.MainActivity} displaying the ViewPager.
-     * This is called when the User clicks on the Refresh Menu icon shown by the {@link com.example.Postoko.storeapp.ui.MainActivity}
+     * Method invoked by the {@link HomeActivity} displaying the ViewPager.
+     * This is called when the User clicks on the Refresh Menu icon shown by the {@link HomeActivity}
      */
     @Override
     public void onRefreshMenuClicked() {

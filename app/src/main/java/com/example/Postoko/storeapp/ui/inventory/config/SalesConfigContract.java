@@ -1,5 +1,3 @@
-/*
- */
 
 package com.example.Postoko.storeapp.ui.inventory.config;
 
@@ -17,11 +15,7 @@ import com.example.Postoko.storeapp.ui.BaseView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Contract Interface for the View {@link SalesConfigActivityFragment} and its Presenter {@link SalesConfigPresenter}.
- *
- * @author Kaushik N Sanji
- */
+
 public interface SalesConfigContract {
 
     /**

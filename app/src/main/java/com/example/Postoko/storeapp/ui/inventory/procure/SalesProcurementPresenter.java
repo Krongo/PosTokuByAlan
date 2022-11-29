@@ -31,12 +31,7 @@ import com.example.Postoko.storeapp.ui.products.config.DefaultPhotoChangeListene
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * The Presenter class that implements {@link SalesProcurementContract.Presenter} on the lines of
- * Model-View-Presenter architecture. This Presenter interfaces with the App repository {@link StoreRepository}
- * to download the availability of the Product at the Supplier and Supplier's Contacts for procurement
- * and updates the same to the View {@link SalesProcurementActivityFragment} to load and display it.
- */
+
 public class SalesProcurementPresenter implements SalesProcurementContract.Presenter {
 
     //Constant used for Logs
@@ -291,13 +286,7 @@ public class SalesProcurementPresenter implements SalesProcurementContract.Prese
         }
     }
 
-    /**
-     * Method invoked when the user clicks on any of the Phone Contacts shown. This should
-     * launch an Intent to start the Phone Activity passing in
-     * the number {@link SupplierContact#mValue}
-     *
-     * @param supplierContact The {@link SupplierContact} data of the Phone Contact clicked.
-     */
+
     @Override
     public void phoneClicked(SupplierContact supplierContact) {
         //Delegating to the View to launch the Phone Dialer

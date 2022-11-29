@@ -1,18 +1,3 @@
-/*
- * Copyright 2018 Kaushik N. Sanji
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package com.example.Postoko.storeapp.ui.inventory.procure;
 
@@ -26,24 +11,13 @@ import com.example.Postoko.storeapp.ui.BaseView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Contract Interface for the View {@link SalesProcurementActivityFragment} and its Presenter {@link SalesProcurementPresenter}.
- *
- * @author Kaushik N Sanji
- */
+
 public interface SalesProcurementContract {
 
-    /**
-     * The View Interface implemented by {@link SalesProcurementActivityFragment}
-     */
+
     interface View extends BaseView<Presenter> {
 
-        /**
-         * Method invoked to keep the state of "Supplier's Contacts restored", in sync with the Presenter.
-         *
-         * @param areSupplierContactsRestored Boolean that indicates the state of Supplier's Contacts restored.
-         *                                    <b>TRUE</b> if it had been restored; <b>FALSE</b> otherwise.
-         */
+
         void syncContactsState(boolean areSupplierContactsRestored);
 
         /**
@@ -165,22 +139,8 @@ public interface SalesProcurementContract {
          */
         void updateSupplierContacts(List<SupplierContact> supplierContacts);
 
-        /**
-         * Method invoked when the user clicks on any of the Phone Contacts shown. This should
-         * launch an Intent to start the Phone Activity passing in
-         * the number {@link SupplierContact#mValue}
-         *
-         * @param supplierContact The {@link SupplierContact} data of the Phone Contact clicked.
-         */
         void phoneClicked(SupplierContact supplierContact);
 
-        /**
-         * Method invoked when the user clicks on the "Send Mail" Image Button. This should
-         * dispatch an Email to the Supplier's Contacts for procuring more quantity of the Product.
-         *
-         * @param requiredQuantityStr String containing the quantity of Product required.
-         * @param emailContacts       List of {@link SupplierContact} of Email Contact Type, of the Supplier.
-         */
         void sendMailClicked(String requiredQuantityStr, ArrayList<SupplierContact> emailContacts);
 
         /**

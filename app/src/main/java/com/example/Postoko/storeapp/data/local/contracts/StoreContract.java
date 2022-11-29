@@ -18,6 +18,11 @@ package com.example.Postoko.storeapp.data.local.contracts;
 
 import android.net.Uri;
 
+/**
+ * Marker interface for the constants that identify the Content Provider
+ *
+ * @author Kaushik N Sanji
+ */
 public interface StoreContract {
 
     //The Authority constant of the content provider

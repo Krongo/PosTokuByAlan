@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018 Kaushik N. Sanji
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.example.Postoko.storeapp.data.local;
 
@@ -38,7 +53,12 @@ import static com.example.Postoko.storeapp.data.local.utils.SqliteUtility.AND;
 import static com.example.Postoko.storeapp.data.local.utils.SqliteUtility.EQUALS;
 import static com.example.Postoko.storeapp.data.local.utils.SqliteUtility.PLACEHOLDER;
 
-
+/**
+ * The Database Repository class that implements {@link DataRepository} interface
+ * to manage communication with the Database of the App.
+ *
+ * @author Kaushik N Sanji
+ */
 public class StoreLocalRepository implements DataRepository {
 
     //Constant used for logs
@@ -53,11 +73,24 @@ public class StoreLocalRepository implements DataRepository {
     //AppExecutors instance for threading requests
     private final AppExecutors mAppExecutors;
 
+    /**
+     * Private Constructor of {@link StoreLocalRepository}
+     *
+     * @param contentResolver The {@link ContentResolver} instance to communicate with the Database
+     * @param appExecutors    {@link AppExecutors} instance for threading requests
+     */
     private StoreLocalRepository(@NonNull ContentResolver contentResolver, @NonNull AppExecutors appExecutors) {
         mContentResolver = contentResolver;
         mAppExecutors = appExecutors;
     }
 
+    /**
+     * Singleton Constructor that creates a single instance of {@link StoreLocalRepository}
+     *
+     * @param contentResolver The {@link ContentResolver} instance to communicate with the Database
+     * @param appExecutors    {@link AppExecutors} instance for threading requests
+     * @return New or existing instance of {@link StoreLocalRepository}
+     */
     public static StoreLocalRepository getInstance(@NonNull ContentResolver contentResolver, @NonNull AppExecutors appExecutors) {
         if (INSTANCE == null) {
             //When instance is not available
@@ -73,6 +106,11 @@ public class StoreLocalRepository implements DataRepository {
         return INSTANCE;
     }
 
+    /**
+     * Method that retrieves the Categories for configuring a Product.
+     *
+     * @param queryCallback The Callback to be implemented by the caller to receive the results
+     */
     @Override
     public void getAllCategories(@NonNull GetQueryCallback<List<String>> queryCallback) {
         //Executing on Disk Thread
@@ -118,6 +156,12 @@ public class StoreLocalRepository implements DataRepository {
         });
     }
 
+    /**
+     * Method that retrieves the Category Id for the Category Name configured for the Product.
+     *
+     * @param categoryName  The Category Name selected for the Product
+     * @param queryCallback The Callback to be implemented by the caller to receive the result.
+     */
     @Override
     public void getCategoryByName(@NonNull String categoryName, @NonNull GetQueryCallback<Integer> queryCallback) {
         //Executing on Disk Thread
@@ -169,6 +213,12 @@ public class StoreLocalRepository implements DataRepository {
         });
     }
 
+    /**
+     * Method that retrieves the Product Details of Product identified by its Id.
+     *
+     * @param productId     The Integer Id of the Product to lookup for.
+     * @param queryCallback The Callback to be implemented by the caller to receive the result.
+     */
     @Override
     public void getProductDetailsById(int productId, @NonNull GetQueryCallback<Product> queryCallback) {
         //Retrieving the Product details for the Product ID passed
@@ -236,6 +286,13 @@ public class StoreLocalRepository implements DataRepository {
         });
     }
 
+    /**
+     * Method that retrieves the list of {@link ProductImage}s for the Product identified by its Id.
+     * This is called on the Disk Thread.
+     *
+     * @param productId The Integer Id of the Product to lookup for.
+     * @return List of {@link ProductImage}s for the Product identified by its Id.
+     */
     @WorkerThread
     private ArrayList<ProductImage> getProductImagesById(int productId) {
         //Retrieving the cursor to the records
@@ -278,6 +335,13 @@ public class StoreLocalRepository implements DataRepository {
         return productImages;
     }
 
+    /**
+     * Method that retrieves the list of {@link ProductAttribute}s for the Product identified by its Id.
+     * This is called on the Disk Thread.
+     *
+     * @param productId The Integer Id of the Product to lookup for.
+     * @return List of {@link ProductAttribute}s for the Product identified by its Id.
+     */
     @WorkerThread
     private ArrayList<ProductAttribute> getProductAttributesById(int productId) {
         //Retrieving the cursor to the records
@@ -321,6 +385,12 @@ public class StoreLocalRepository implements DataRepository {
         return productAttributes;
     }
 
+    /**
+     * Method that checks and validates the uniqueness of the Product SKU {@code productSku} passed.
+     *
+     * @param productSku    The Product SKU of the Product to lookup for.
+     * @param queryCallback The Callback to be implemented by the caller to receive the result.
+     */
     @Override
     public void getProductSkuUniqueness(@NonNull String productSku, @NonNull GetQueryCallback<Boolean> queryCallback) {
         //Executing on Disk Thread
@@ -373,6 +443,13 @@ public class StoreLocalRepository implements DataRepository {
         });
     }
 
+    /**
+     * Method that adds a New {@link Product} entry into the database table 'item'.
+     *
+     * @param newProduct         The New {@link Product} to be added to the database
+     * @param operationsCallback The Callback to be implemented by the caller to
+     *                           receive the operation result.
+     */
     @Override
     public void saveNewProduct(@NonNull Product newProduct, @NonNull DataOperationsCallback operationsCallback) {
         //Get the Category Name
@@ -380,7 +457,12 @@ public class StoreLocalRepository implements DataRepository {
 
         //Check if the Category exists (Executes on Disk Thread)
         getCategoryByName(categoryName, new GetQueryCallback<Integer>() {
-
+            /**
+             * Method invoked when the results are obtained
+             * for the query executed.
+             *
+             * @param categoryId The integer Category Id found for the Category Name queried
+             */
             @MainThread
             @Override
             public void onResults(Integer categoryId) {
@@ -391,6 +473,10 @@ public class StoreLocalRepository implements DataRepository {
                 mAppExecutors.getDiskIO().execute(() -> proceedToSaveProduct(categoryId));
             }
 
+            /**
+             * Method invoked when there are no results
+             * for the query executed.
+             */
             @MainThread
             @Override
             public void onEmpty() {
@@ -423,6 +509,14 @@ public class StoreLocalRepository implements DataRepository {
 
             }
 
+            /**
+             * Method invoked when the results could not be retrieved
+             * for the query due to some error.
+             *
+             * @param messageId The String resource of the error message
+             *                  for the query execution failure
+             * @param args      Variable number of arguments to replace the format specifiers
+             */
             @MainThread
             @Override
             public void onFailure(int messageId, @Nullable Object... args) {
@@ -430,6 +524,12 @@ public class StoreLocalRepository implements DataRepository {
                 operationsCallback.onFailure(messageId, args);
             }
 
+            /**
+             * Method that saves the Product details after the {@code categoryId}
+             * for the Product's category was determined.
+             *
+             * @param categoryId The Id of the Category determined
+             */
             @WorkerThread
             private void proceedToSaveProduct(final int categoryId) {
                 //Begin to save Product data
@@ -492,6 +592,15 @@ public class StoreLocalRepository implements DataRepository {
 
     }
 
+    /**
+     * Method that updates an existing {@link Product} entry into the database table 'item'.
+     *
+     * @param existingProduct    The Existing Product details for figuring out the required
+     *                           CRUD operations
+     * @param newProduct         The New Updated Product details to be saved in the database.
+     * @param operationsCallback The Callback to be implemented by the caller to
+     *                           receive the operation result.
+     */
     @Override
     public void saveUpdatedProduct(@NonNull Product existingProduct, @NonNull Product newProduct,
                                    @NonNull DataOperationsCallback operationsCallback) {
@@ -501,6 +610,12 @@ public class StoreLocalRepository implements DataRepository {
 
         //Check if the Category exists (Executes on Disk Thread)
         getCategoryByName(newCategoryName, new GetQueryCallback<Integer>() {
+            /**
+             * Method invoked when the results are obtained
+             * for the query executed.
+             *
+             * @param categoryId The integer Category Id found for the Category Name queried
+             */
             @MainThread
             @Override
             public void onResults(Integer categoryId) {
@@ -511,6 +626,10 @@ public class StoreLocalRepository implements DataRepository {
                 mAppExecutors.getDiskIO().execute(() -> proceedToUpdateProduct(categoryId));
             }
 
+            /**
+             * Method invoked when there are no results
+             * for the query executed.
+             */
             @MainThread
             @Override
             public void onEmpty() {
@@ -542,6 +661,14 @@ public class StoreLocalRepository implements DataRepository {
                 });
             }
 
+            /**
+             * Method invoked when the results could not be retrieved
+             * for the query due to some error.
+             *
+             * @param messageId The String resource of the error message
+             *                  for the query execution failure
+             * @param args      Variable number of arguments to replace the format specifiers
+             */
             @MainThread
             @Override
             public void onFailure(int messageId, @Nullable Object... args) {
@@ -549,6 +676,12 @@ public class StoreLocalRepository implements DataRepository {
                 operationsCallback.onFailure(messageId, args);
             }
 
+            /**
+             * Method that updates the existing Product details after the {@code categoryId}
+             * for the Product's category was determined.
+             *
+             * @param categoryId The Id of the Category determined
+             */
             @WorkerThread
             private void proceedToUpdateProduct(final int categoryId) {
                 //Update the Product Hang off details by inserting them completely
@@ -644,6 +777,14 @@ public class StoreLocalRepository implements DataRepository {
 
     }
 
+    /**
+     * Method that saves the {@link ProductAttribute} details for the Product
+     * identified by the {@code productId} into the database table 'item_attr'.
+     *
+     * @param productId         The Product Id for which the Product Attributes are to be added.
+     * @param productAttributes The New {@link ProductAttribute} details to be added to the database
+     * @return The Number of records inserted.
+     */
     @WorkerThread
     private int saveProductAttributes(int productId, ArrayList<ProductAttribute> productAttributes) {
         //Number of Product Attributes to be inserted
@@ -666,6 +807,14 @@ public class StoreLocalRepository implements DataRepository {
         );
     }
 
+    /**
+     * Method that saves the {@link ProductImage} details for the Product
+     * identified by the {@code productId} into the database table 'item_image'.
+     *
+     * @param productId     The Product Id for which the Product Images are to be added.
+     * @param productImages The New {@link ProductImage} details to be added to the database
+     * @return The Number of records inserted.
+     */
     @WorkerThread
     private int saveProductImages(int productId, ArrayList<ProductImage> productImages) {
         //Number of Product Images to be inserted
@@ -689,6 +838,18 @@ public class StoreLocalRepository implements DataRepository {
         );
     }
 
+    /**
+     * Method that updates the list of {@link ProductImage} details for the
+     * existing Product {@code existingProduct} into the database table 'item_image'.
+     * Performs a silent delete operation of all the Images previously
+     * configured for the Product if any when the {@code productImages} passed is empty.
+     * (Applicable for Existing Product only)
+     *
+     * @param existingProduct    The Existing Product for which the Product Images are to be updated.
+     * @param productImages      The New List of {@link ProductImage} details to be updated to the database
+     * @param operationsCallback The Callback to be implemented by the caller to
+     *                           receive the operation result.
+     */
     @Override
     public void saveProductImages(@NonNull Product existingProduct, @NonNull ArrayList<ProductImage> productImages, @NonNull DataOperationsCallback operationsCallback) {
         //Executing on Disk Thread
@@ -721,6 +882,13 @@ public class StoreLocalRepository implements DataRepository {
         });
     }
 
+    /**
+     * Method that deletes a Product identified by its Id.
+     * This also deletes any relationship data with the Product.
+     *
+     * @param productId          The Product Id of the Product to be deleted.
+     * @param operationsCallback The Callback to be implemented by the caller to
+     */
     @Override
     public void deleteProductById(int productId, @NonNull DataOperationsCallback operationsCallback) {
         //Executing on Disk Thread
@@ -745,6 +913,20 @@ public class StoreLocalRepository implements DataRepository {
         });
     }
 
+    /**
+     * Method that registers a {@link ContentObserver} class that receives callbacks
+     * when the data identified by a given content URI changes.
+     *
+     * @param uri                  The URI to watch for changes. This can be a specific row URI,
+     *                             or a base URI for a whole class of content.
+     * @param notifyForDescendants When false, the observer will be notified
+     *                             whenever a change occurs to the exact URI specified by
+     *                             <code>uri</code> or to one of the URI's ancestors in the path
+     *                             hierarchy. When true, the observer will also be notified
+     *                             whenever a change occurs to the URI's descendants in the path
+     *                             hierarchy.
+     * @param observer             The {@link ContentObserver} object that receives callbacks when changes occur.
+     */
     @Override
     public void registerContentObserver(@NonNull Uri uri, boolean notifyForDescendants, @NonNull ContentObserver observer) {
         mContentResolver.registerContentObserver(uri, notifyForDescendants, observer);
@@ -760,6 +942,12 @@ public class StoreLocalRepository implements DataRepository {
         mContentResolver.unregisterContentObserver(observer);
     }
 
+    /**
+     * Method that retrieves the Supplier Details of Supplier identified by its Id.
+     *
+     * @param supplierId    The Integer Id of the Supplier to lookup for.
+     * @param queryCallback The Callback to be implemented by the caller to receive the result.
+     */
     @Override
     public void getSupplierDetailsById(int supplierId, @NonNull GetQueryCallback<Supplier> queryCallback) {
         //Retrieving the Supplier details for the Supplier ID passed
@@ -819,6 +1007,12 @@ public class StoreLocalRepository implements DataRepository {
         });
     }
 
+    /**
+     * Method that retrieves the Contacts of a Supplier identified by its Id.
+     *
+     * @param supplierId    The Integer Id of the Supplier to retrieve the List of Supplier's Contacts.
+     * @param queryCallback The Callback to be implemented by the caller to receive the result.
+     */
     @Override
     public void getSupplierContactsById(int supplierId, @NonNull GetQueryCallback<List<SupplierContact>> queryCallback) {
         //Retrieving the Supplier's contacts for the Supplier ID passed
@@ -840,6 +1034,13 @@ public class StoreLocalRepository implements DataRepository {
         });
     }
 
+    /**
+     * Method that retrieves the list of {@link ProductSupplierInfo} for the Supplier identified by its id.
+     * This is called on Disk Thread.
+     *
+     * @param supplierId The Integer Id of the Supplier to lookup for.
+     * @return List of {@link ProductSupplierInfo} for the Supplier identified by its id.
+     */
     @WorkerThread
     private ArrayList<ProductSupplierInfo> getProductSupplierInfoList(int supplierId) {
         //Retrieving the cursor to the records
@@ -883,6 +1084,13 @@ public class StoreLocalRepository implements DataRepository {
         return productSupplierInfoList;
     }
 
+    /**
+     * Method that retrieves the list of {@link SupplierContact} for the Supplier identified by its id.
+     * This is called on Disk Thread.
+     *
+     * @param supplierId The Integer Id of the Supplier to lookup for.
+     * @return List of {@link SupplierContact} for the Supplier identified by its id.
+     */
     @WorkerThread
     private ArrayList<SupplierContact> getSupplierContacts(int supplierId) {
         //Retrieving the cursor to the records
@@ -927,6 +1135,12 @@ public class StoreLocalRepository implements DataRepository {
         return supplierContacts;
     }
 
+    /**
+     * Method that checks and validates the uniqueness of the Supplier Code {@code supplierCode} passed.
+     *
+     * @param supplierCode  The Supplier Code of the Supplier to lookup for.
+     * @param queryCallback The Callback to be implemented by the caller to receive the result.
+     */
     @Override
     public void getSupplierCodeUniqueness(@NonNull String supplierCode, @NonNull GetQueryCallback<Boolean> queryCallback) {
         //Executing on Disk Thread
@@ -978,6 +1192,13 @@ public class StoreLocalRepository implements DataRepository {
         });
     }
 
+    /**
+     * Method that retrieves short information of the Products identified by its Ids {@code productIds}
+     *
+     * @param productIds    List of Ids of the Products whose information is required. When {@code null},
+     *                      information for all the Products in the database is retrieved.
+     * @param queryCallback The Callback to be implemented by the caller to receive the result.
+     */
     @Override
     public void getShortProductInfoForProducts(@Nullable List<String> productIds,
                                                @NonNull GetQueryCallback<List<ProductLite>> queryCallback) {
@@ -1032,6 +1253,12 @@ public class StoreLocalRepository implements DataRepository {
         });
     }
 
+    /**
+     * Method that adds a new {@link Supplier} entry into the database.
+     *
+     * @param newSupplier        The new {@link Supplier} to be added to the database.
+     * @param operationsCallback The Callback to be implemented by the caller to
+     */
     @Override
     public void saveNewSupplier(@NonNull Supplier newSupplier, @NonNull DataOperationsCallback operationsCallback) {
         //Executing on Disk Thread
@@ -1098,6 +1325,14 @@ public class StoreLocalRepository implements DataRepository {
         });
     }
 
+    /**
+     * Method that saves the Supplier's Contacts {@link SupplierContact} details
+     * of the Supplier identified by the {@code supplierId} into the database table 'supplier_contact'.
+     *
+     * @param supplierId The Supplier Id for which the Contacts are to be added.
+     * @param contacts   The Supplier's Contacts {@link SupplierContact} to be added/updated to the database.
+     * @return The Number of records inserted.
+     */
     @WorkerThread
     private int saveSupplierContacts(int supplierId, ArrayList<SupplierContact> contacts) {
         //Number of Supplier Contacts to be inserted
@@ -1132,6 +1367,15 @@ public class StoreLocalRepository implements DataRepository {
         );
     }
 
+    /**
+     * Method that saves the Supplier's Items with their Price info {@link ProductSupplierInfo}
+     * into the database table 'item_supplier_info'.
+     *
+     * @param supplierId              THe Supplier Id for which the Items with Price info are to be added/updated.
+     * @param productSupplierInfoList List of Supplier's Items with their Price info
+     *                                {@link ProductSupplierInfo} to be added/updated to the database.
+     * @return The Number of records inserted.
+     */
     @WorkerThread
     private int saveSupplierItems(int supplierId, ArrayList<ProductSupplierInfo> productSupplierInfoList) {
         //Number of Supplier Items to be inserted
@@ -1157,6 +1401,15 @@ public class StoreLocalRepository implements DataRepository {
         );
     }
 
+    /**
+     * Method that inserts Zero Inventory record for the Supplier's Items {@link ProductSupplierInfo}
+     * into the database table 'item_supplier_inventory'.
+     *
+     * @param supplierId              The Supplier Id of the Supplier whose items inventory are to be inserted with 0.
+     * @param productSupplierInfoList List of Supplier's Items {@link ProductSupplierInfo}
+     *                                whose inventory record are to be inserted with 0.
+     * @return The Number of records inserted.
+     */
     @WorkerThread
     private int insertZeroSupplierInventoryForItems(int supplierId, ArrayList<ProductSupplierInfo> productSupplierInfoList) {
         //Number of Supplier Items inventory to be inserted
@@ -1181,6 +1434,15 @@ public class StoreLocalRepository implements DataRepository {
         );
     }
 
+    /**
+     * Method that saves/updates the Item's Inventory provided by its Suppliers {@link ProductSupplierSales}
+     * into the database table 'item_supplier_inventory'.
+     *
+     * @param productId                The Product Id of the Product whose inventory is to be inserted/updated.
+     * @param productSupplierSalesList List of the Product's Suppliers inventory{@link ProductSupplierSales}
+     *                                 to be added/updated to the database.
+     * @return The Number of inventory records inserted for the Item {@code productId}
+     */
     @WorkerThread
     private int saveItemSuppliersInventory(int productId, List<ProductSupplierSales> productSupplierSalesList) {
         //Number of Suppliers Inventory records to be inserted for the Item
@@ -1206,6 +1468,14 @@ public class StoreLocalRepository implements DataRepository {
         );
     }
 
+    /**
+     * Method that updates an existing {@link Supplier} entry in the database.
+     *
+     * @param existingSupplier   The Existing Supplier details for figuring out the required
+     *                           CRUD operations.
+     * @param newSupplier        The New Supplier details to be saved in the database.
+     * @param operationsCallback The Callback to be implemented by the caller to
+     */
     @Override
     public void saveUpdatedSupplier(@NonNull Supplier existingSupplier,
                                     @NonNull Supplier newSupplier,
@@ -1351,6 +1621,13 @@ public class StoreLocalRepository implements DataRepository {
 
     }
 
+    /**
+     * Method that deletes a Supplier identified by its Id.
+     * This also deletes any relationship data with the Supplier.
+     *
+     * @param supplierId         The Supplier Id of the Supplier to be deleted.
+     * @param operationsCallback The Callback to be implemented by the caller to
+     */
     @Override
     public void deleteSupplierById(int supplierId, @NonNull DataOperationsCallback operationsCallback) {
         //Executing on Disk Thread
@@ -1375,6 +1652,14 @@ public class StoreLocalRepository implements DataRepository {
         });
     }
 
+    /**
+     * Method that removes the Inventory records for the Items of the given Supplier identified by its Id.
+     *
+     * @param supplierId                     The Supplier Id of the Supplier whose Items inventory is to be removed
+     * @param removedProductSupplierInfoList List of {@link ProductSupplierInfo} that contains the Item Ids
+     *                                       of the Items whose Inventory records needs to be removed.
+     * @return The number of Supplier Items inventory records removed
+     */
     @WorkerThread
     private int unlinkSupplierItemsInventory(int supplierId, ArrayList<ProductSupplierInfo> removedProductSupplierInfoList) {
         //Stores the number of Supplier Items inventory removed from the Supplier
@@ -1398,6 +1683,15 @@ public class StoreLocalRepository implements DataRepository {
         return noOfSupplierItemsInventoryRemoved;
     }
 
+    /**
+     * Method that removes the Inventory records for the Suppliers of the given Item identified by its Id.
+     *
+     * @param productId                       The Product Id of the Product whose inventory from the Suppliers are to be removed.
+     * @param removedProductSupplierSalesList List of {@link ProductSupplierSales} that contains the Supplier Ids
+     *                                        of the Suppliers whose Inventory records with the Item {@code productId}
+     *                                        needs to be removed.
+     * @return The number of Suppliers' inventory removed for the Item.
+     */
     @WorkerThread
     private int unlinkItemSuppliersInventory(int productId, List<ProductSupplierSales> removedProductSupplierSalesList) {
         //Stores the number of Suppliers' inventory removed for the Item
@@ -1421,6 +1715,15 @@ public class StoreLocalRepository implements DataRepository {
         return noOfItemSuppliersInventoryRemoved;
     }
 
+    /**
+     * Method that removes the link between Supplier and its items for the
+     * items mentioned in {@code removedProductSupplierInfoList}.
+     *
+     * @param supplierId                     The Supplier Id of the Supplier whose link with the items are to be removed
+     * @param removedProductSupplierInfoList List of {@link ProductSupplierInfo} that contains
+     *                                       the Item Ids of the Items for which the link needs to be removed.
+     * @return The Number of Supplier Items removed.
+     */
     @WorkerThread
     private int unlinkSupplierItems(int supplierId, ArrayList<ProductSupplierInfo> removedProductSupplierInfoList) {
         //Stores the number of Supplier Items removed from the Supplier
@@ -1444,6 +1747,15 @@ public class StoreLocalRepository implements DataRepository {
         return noOfSupplierItemsRemoved;
     }
 
+    /**
+     * Method that removes the link between Item and its Suppliers for the Suppliers
+     * mentioned in {@code removedProductSupplierSalesList}.
+     *
+     * @param productId                       The Product Id of the Product whose link with the Suppliers are to be removed.
+     * @param removedProductSupplierSalesList List of {@link ProductSupplierSales} that contains
+     *                                        the Supplier Ids of the Suppliers for which the link needs to be removed.
+     * @return The Number of Item's Suppliers removed.
+     */
     @WorkerThread
     private int unlinkItemSuppliers(int productId, List<ProductSupplierSales> removedProductSupplierSalesList) {
         //Stores the number of Suppliers removed from the item
@@ -1467,6 +1779,13 @@ public class StoreLocalRepository implements DataRepository {
         return noOfItemSuppliersRemoved;
     }
 
+    /**
+     * Method that deletes the Contacts of the given Supplier and Supplier Contact Values.
+     *
+     * @param supplierId              The Supplier Id of the Supplier whose contacts are to be deleted.
+     * @param removedSupplierContacts List of {@link SupplierContact} that needs to be deleted.
+     * @return The Number of Supplier Contacts deleted.
+     */
     @WorkerThread
     private int deleteSupplierContacts(int supplierId, ArrayList<SupplierContact> removedSupplierContacts) {
         //Stores the number of Records deleted
@@ -1496,6 +1815,13 @@ public class StoreLocalRepository implements DataRepository {
         return noOfRecordsDeleted;
     }
 
+    /**
+     * Method that removes similar {@link SupplierContact} from {@code sourceSupplierContacts}
+     * by comparing only the contact value.
+     *
+     * @param sourceSupplierContacts   The Source List of {@link SupplierContact} to remove from.
+     * @param supplierContactsToRemove The List of {@link SupplierContact} to be removed.
+     */
     @WorkerThread
     private void removeSimilarSupplierContacts(ArrayList<SupplierContact> sourceSupplierContacts,
                                                ArrayList<SupplierContact> supplierContactsToRemove) {
@@ -1517,6 +1843,13 @@ public class StoreLocalRepository implements DataRepository {
         }
     }
 
+    /**
+     * Method that removes similar {@link ProductSupplierInfo} from {@code sourceProductSupplierInfoList}
+     * by comparing the ItemId-SupplierId pair.
+     *
+     * @param sourceProductSupplierInfoList   The Source List of {@link ProductSupplierInfo} to remove from.
+     * @param productSupplierInfoListToRemove The List of {@link ProductSupplierInfo} to be removed.
+     */
     @WorkerThread
     private void removeSimilarProductSupplierInfo(ArrayList<ProductSupplierInfo> sourceProductSupplierInfoList,
                                                   ArrayList<ProductSupplierInfo> productSupplierInfoListToRemove) {
@@ -1540,6 +1873,13 @@ public class StoreLocalRepository implements DataRepository {
         }
     }
 
+    /**
+     * Method that removes similar {@link ProductSupplierSales} from {@code sourceProductSupplierSalesList}
+     * by comparing the ItemId-SupplierId pair.
+     *
+     * @param sourceProductSupplierSalesList   The Source List of {@link ProductSupplierSales} to remove from.
+     * @param productSupplierSalesListToRemove The List of {@link ProductSupplierSales} to be removed.
+     */
     @WorkerThread
     private void removeSimilarProductSupplierSales(List<ProductSupplierSales> sourceProductSupplierSalesList,
                                                    List<ProductSupplierSales> productSupplierSalesListToRemove) {
@@ -1563,6 +1903,18 @@ public class StoreLocalRepository implements DataRepository {
         }
     }
 
+    /**
+     * Method that decreases the available quantity {@code availableQuantity} of a Product sold
+     * by the Supplier, by the specified quantity {@code decreaseQuantityBy}.
+     *
+     * @param productId          The Product Id of the Product.
+     * @param productSku         The Product SKU of the Product.
+     * @param supplierId         The Supplier Id of the Supplier for the Product.
+     * @param supplierCode       The Supplier Code of the Supplier for the Product.
+     * @param availableQuantity  The current available Quantity of the Product at the Supplier.
+     * @param decreaseQuantityBy The amount to decrease the available quantity by.
+     * @param operationsCallback The Callback to be implemented by the caller to
+     */
     @Override
     public void decreaseProductSupplierInventory(int productId, String productSku,
                                                  int supplierId, String supplierCode,
@@ -1599,6 +1951,13 @@ public class StoreLocalRepository implements DataRepository {
         });
     }
 
+    /**
+     * Method that retrieves the Suppliers' Inventory and Price details
+     * for a Product identified by its id.
+     *
+     * @param productId     The Integer Id of the Product to lookup for.
+     * @param queryCallback The Callback to be implemented by the caller to receive the result.
+     */
     @Override
     public void getProductSuppliersSalesInfo(int productId, @NonNull GetQueryCallback<List<ProductSupplierSales>> queryCallback) {
         //Executing on the Disk Thread
@@ -1654,6 +2013,18 @@ public class StoreLocalRepository implements DataRepository {
         });
     }
 
+    /**
+     * Method that updates the inventory of the Product identified by the Product Id {@code productId}
+     * at all its registered suppliers.
+     *
+     * @param productId                    The Product Id of the Product whose inventory is being updated.
+     * @param productSku                   The Product SKU of the Product.
+     * @param existingProductSupplierSales List of Product's Suppliers with Sales information
+     *                                     currently persisted in the database.
+     * @param updatedProductSupplierSales  List of Product's Suppliers with updated Sales information
+     * @param operationsCallback           The Callback to be implemented by the caller to
+     *                                     receive the operation result.
+     */
     @Override
     public void saveUpdatedProductSalesInfo(int productId, String productSku,
                                             @NonNull List<ProductSupplierSales> existingProductSupplierSales,

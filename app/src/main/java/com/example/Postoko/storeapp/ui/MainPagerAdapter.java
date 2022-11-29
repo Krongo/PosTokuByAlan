@@ -52,23 +52,14 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
     //Stores a reference to the FragmentManager used
     private FragmentManager mFragmentManager;
 
-    /**
-     * Constructor of {@link MainPagerAdapter}
-     *
-     * @param context is the Application Context
-     * @param fm      is the FragmentManager to be used for managing the Fragments
-     */
+
     MainPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mFragmentManager = fm;
         mContext = context;
     }
 
-    /**
-     * Return the Fragment associated with a specified position.
-     *
-     * @param position is the position of tab/fragment in the {@link android.support.v4.view.ViewPager}
-     */
+
     @Override
     public Fragment getItem(int position) {
         //Selecting the Fragment based on position
@@ -84,11 +75,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
-    /**
-     * Creates the {@link ProductListFragment} and its Presenter {@link ProductListPresenter}
-     *
-     * @return Instance of {@link ProductListFragment}
-     */
+
     private Fragment provideProductListFragment() {
         //Creating the Fragment
         ProductListFragment fragment = ProductListFragment.newInstance();
@@ -98,11 +85,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
         return fragment;
     }
 
-    /**
-     * Creates the {@link SupplierListFragment} and its Presenter {@link SupplierListPresenter}
-     *
-     * @return Instance of {@link SupplierListFragment}
-     */
+
     private Fragment provideSupplierListFragment() {
         //Creating the Fragment
         SupplierListFragment fragment = SupplierListFragment.newInstance();
@@ -112,11 +95,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
         return fragment;
     }
 
-    /**
-     * Creates the {@link SalesListFragment} and its Presenter {@link SalesListPresenter}
-     *
-     * @return Instance of {@link SalesListFragment}
-     */
+
     private Fragment provideSalesListFragment() {
         //Creating the Fragment
         SalesListFragment fragment = SalesListFragment.newInstance();
@@ -126,11 +105,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
         return fragment;
     }
 
-    /**
-     * Method that initializes the Presenter for the {@code fragment} given
-     *
-     * @param fragment Any Fragment Instances of this {@link MainPagerAdapter}
-     */
+
     private void initPresenter(Fragment fragment) {
         if (fragment instanceof ProductListFragment) {
             //Creating the ProductListFragment's Presenter
@@ -159,26 +134,13 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
-    /**
-     * Return the number of views available.
-     */
+
     @Override
     public int getCount() {
         return TOTAL_VIEW_COUNT;
     }
 
-    /**
-     * Creates the Fragment for the given position.  The adapter is responsible
-     * for adding the view to the container given here, although it only
-     * must ensure this is done by the time it returns from
-     * {@link #finishUpdate(ViewGroup)}.
-     *
-     * @param container The containing {@link android.support.v4.view.ViewPager}
-     *                  in which the Fragment will be shown.
-     * @param position  The page position to be instantiated.
-     * @return Returns an Object representing the new page.  This does not
-     * need to be a View, but can be some other container of the page.
-     */
+
     @Override
     @NonNull
     public Object instantiateItem(ViewGroup container, int position) {
@@ -188,17 +150,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
         return fragment;
     }
 
-    /**
-     * Removes a Fragment for the given position.  The adapter is responsible
-     * for removing the view from its container, although it only must ensure
-     * this is done by the time it returns from {@link #finishUpdate(ViewGroup)}.
-     *
-     * @param container The containing {@link android.support.v4.view.ViewPager}
-     *                  from which the Fragment will be removed.
-     * @param position  The position of the Fragment to be removed.
-     * @param object    The same object that was returned by
-     *                  {@link #instantiateItem(View, int)}.
-     */
+
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         //Unregisters the Fragment when the item is inactive
@@ -206,23 +158,13 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
         super.destroyItem(container, position, object);
     }
 
-    /**
-     * Returns the registered fragment at the position
-     *
-     * @param position is the index of the Fragment shown in the ViewPager
-     * @return Instance of the Active Fragment at the position if present; else Null
-     */
+
     @Nullable
     Fragment getRegisteredFragment(int position) {
         return mRegisteredFragments.get(position);
     }
 
-    /**
-     * Overriding to restore the state of Registered Fragments array
-     *
-     * @param state  is the Parcelable state
-     * @param loader is the ClassLoader required for restoring the state
-     */
+
     @Override
     public void restoreState(Parcelable state, ClassLoader loader) {
         super.restoreState(state, loader);
@@ -252,15 +194,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
-    /**
-     * Method that inflates the template layout ('R.layout.layout_main_tab') for the Tabs
-     * and prepares the layout with the correct Tab Icon and Text for the position requested
-     *
-     * @param container The containing {@link android.support.v4.view.ViewPager}
-     *                  in which the Fragments will be shown.
-     * @param position  is the position of tab/fragment in the {@link android.support.v4.view.ViewPager}
-     * @return Custom Tab layout to be used for the tab at the given position
-     */
+
     @NonNull
     View getTabView(ViewGroup container, int position) {
         //Inflating the template Tab Layout ('R.layout.layout_main_tab') at position
@@ -296,13 +230,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
         return rootView;
     }
 
-    /**
-     * Method that shows/hides the Title of the Tab based on the value of {@code visibility}
-     *
-     * @param tab        The {@link android.support.design.widget.TabLayout.Tab} to be changed.
-     * @param visibility Boolean value that affects the visibility of the Title.
-     *                   <br/><b>TRUE</b> to show the Title with Icon; <b>FALSE</b> to hide the Title.
-     */
+
     void changeTabView(TabLayout.Tab tab, boolean visibility) {
         //Retrieving the Custom View set for the tab
         View rootView = tab.getCustomView();

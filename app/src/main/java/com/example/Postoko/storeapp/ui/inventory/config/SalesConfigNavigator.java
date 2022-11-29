@@ -1,5 +1,4 @@
-/*
- */
+
 
 package com.example.Postoko.storeapp.ui.inventory.config;
 
@@ -8,11 +7,7 @@ import android.support.annotation.NonNull;
 import com.example.Postoko.storeapp.data.local.models.ProductImage;
 import com.example.Postoko.storeapp.data.local.models.ProductSupplierSales;
 
-/**
- * Defines Navigation Actions that can be invoked from {@link SalesConfigActivity}
- *
- * @author Kaushik N Sanji
- */
+
 public interface SalesConfigNavigator {
 
     /**

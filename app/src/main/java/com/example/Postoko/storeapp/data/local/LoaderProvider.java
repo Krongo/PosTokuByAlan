@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018 Kaushik N. Sanji
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.example.Postoko.storeapp.data.local;
 
@@ -17,6 +32,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
 
+/**
+ * Class that provides CursorLoader instance based in the Loader Type {@link LoadersTypeDef} requested.
+ *
+ * @author Kaushik N Sanji
+ */
 public class LoaderProvider {
 
     //Annotation constants for possible types of CursorLoaders
@@ -28,10 +48,21 @@ public class LoaderProvider {
     //Context Reference required for CursorLoaders
     private final WeakReference<Context> mContextWeakReference;
 
+    /**
+     * Private Constructor of {@link LoaderProvider}
+     *
+     * @param context A {@link Context} required for CursorLoaders
+     */
     private LoaderProvider(@NonNull Context context) {
         mContextWeakReference = new WeakReference<>(context);
     }
 
+    /**
+     * Static Singleton Constructor that creates a single instance of {@link LoaderProvider}
+     *
+     * @param context A {@link Context} required for CursorLoaders
+     * @return New or existing instance of {@link LoaderProvider}
+     */
     public static LoaderProvider getInstance(@NonNull Context context) {
         if (INSTANCE == null) {
             //When instance is not available
@@ -47,6 +78,14 @@ public class LoaderProvider {
         return INSTANCE;
     }
 
+    /**
+     * Method that returns the {@link CursorLoader} to the {@code loaderType} requested
+     *
+     * @param loaderType Integer constant defined by {@link LoadersTypeDef} to
+     *                   create a correct CursorLoader.
+     * @return Returns a {@link CursorLoader} instance when the {@link Context} instance is present
+     * and the {@code loaderType} requested is valid; otherwise {@code NULL}
+     */
     public Loader<Cursor> createCursorLoader(@LoadersTypeDef int loaderType) {
         //Retrieving the Context from the reference
         Context context = mContextWeakReference.get();

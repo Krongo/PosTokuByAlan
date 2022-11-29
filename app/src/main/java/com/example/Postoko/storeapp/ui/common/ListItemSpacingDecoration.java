@@ -1,5 +1,4 @@
 
-
 package com.example.Postoko.storeapp.ui.common;
 
 import android.content.res.Resources;
@@ -9,13 +8,7 @@ import android.view.View;
 
 import com.example.Postoko.storeapp.R;
 
-/**
- * RecyclerView {@link android.support.v7.widget.RecyclerView.ItemDecoration} class
- * to add spacing between the items and its parent in the list managed by
- * {@link android.support.v7.widget.LinearLayoutManager}
- *
 
- */
 public class ListItemSpacingDecoration extends RecyclerView.ItemDecoration {
     //Stores the spacing to be applied between the items in the List
     private final int mVerticalOffsetSize;
@@ -24,12 +17,7 @@ public class ListItemSpacingDecoration extends RecyclerView.ItemDecoration {
     //Boolean Flag to add bottom offset for the Bottom Fab when true
     private final boolean mOffsetBottomFab;
 
-    /**
-     * Constructor of {@link ListItemSpacingDecoration}
-     *
-     * @param verticalOffsetSize   The spacing in Pixels to be applied between the items in the List
-     * @param horizontalOffsetSize The spacing in Pixels to be applied between the items and its parent
-     */
+
     public ListItemSpacingDecoration(int verticalOffsetSize, int horizontalOffsetSize) {
         this(verticalOffsetSize, horizontalOffsetSize, false);
     }

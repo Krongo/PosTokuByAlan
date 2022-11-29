@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018 Kaushik N. Sanji
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.example.Postoko.storeapp.data.local;
 
@@ -18,6 +33,12 @@ import com.example.Postoko.storeapp.utils.ImageStorageUtility;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The File Repository class that implements {@link FileRepository} interface
+ * to manage communication with the files maintained by the App.
+ *
+ * @author Kaushik N Sanji
+ */
 public class StoreFileRepository implements FileRepository {
 
     //Constant used for logs
@@ -32,11 +53,24 @@ public class StoreFileRepository implements FileRepository {
     //AppExecutors instance for threading requests
     private final AppExecutors mAppExecutors;
 
+    /**
+     * Private Constructor of {@link StoreFileRepository}
+     *
+     * @param contentResolver The {@link ContentResolver} instance to take URI permissions and to delete the files
+     * @param appExecutors    {@link AppExecutors} instance for threading requests
+     */
     private StoreFileRepository(@NonNull ContentResolver contentResolver, @NonNull AppExecutors appExecutors) {
         mContentResolver = contentResolver;
         mAppExecutors = appExecutors;
     }
 
+    /**
+     * Singleton Constructor that creates a single instance of {@link StoreFileRepository}
+     *
+     * @param contentResolver The {@link ContentResolver} instance to take URI permissions and to delete the files
+     * @param appExecutors    {@link AppExecutors} instance for threading requests
+     * @return New or existing instance of {@link StoreFileRepository}
+     */
     public static StoreFileRepository getInstance(@NonNull ContentResolver contentResolver, @NonNull AppExecutors appExecutors) {
         if (INSTANCE == null) {
             //When instance is not available
@@ -52,6 +86,14 @@ public class StoreFileRepository implements FileRepository {
         return INSTANCE;
     }
 
+    /**
+     * Method that saves the Image pointed to by the Content URI {@code fileContentUri}
+     * in a file located at the app's private external storage path.
+     *
+     * @param context            The Context of the Activity/Fragment
+     * @param fileContentUri     The Content Uri of the Temporary Image File
+     * @param operationsCallback The Callback to be implemented by the caller to receive the result.
+     */
     @Override
     public void saveImageToFile(Context context, Uri fileContentUri, FileOperationsCallback<Uri> operationsCallback) {
         if (FileStorageUtility.isExternalStorageMounted()) {
@@ -88,6 +130,13 @@ public class StoreFileRepository implements FileRepository {
         }
     }
 
+    /**
+     * Method that persists the persistable URI permission grant that the system gives the app.
+     * Applicable for devices with Android Kitkat (API level 19) and above.
+     *
+     * @param fileContentUri The Content Uri of a File returned by the Intent
+     * @param intentFlags    The existing intent flags on the URI
+     */
     @Override
     public void takePersistablePermissions(Uri fileContentUri, int intentFlags) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -98,6 +147,12 @@ public class StoreFileRepository implements FileRepository {
         }
     }
 
+    /**
+     * Method that deletes the Image files passed in {@code fileContentUriList}
+     *
+     * @param fileContentUriList List of String URIs (Content URIs) of the Image Files to be deleted.
+     * @param operationsCallback The Callback to be implemented by the caller to receive the result.
+     */
     @Override
     public void deleteImageFiles(List<String> fileContentUriList, FileOperationsCallback<Boolean> operationsCallback) {
         if (FileStorageUtility.isExternalStorageMounted()) {
@@ -134,6 +189,12 @@ public class StoreFileRepository implements FileRepository {
         }
     }
 
+    /**
+     * Method that deletes the Image files passed in {@code fileContentUriList} silently
+     * without reporting success/failure back to the caller
+     *
+     * @param fileContentUriList List of String URIs (Content URIs) of the Image Files to be deleted.
+     */
     @Override
     public void deleteImageFilesSilently(List<String> fileContentUriList) {
         //no-op

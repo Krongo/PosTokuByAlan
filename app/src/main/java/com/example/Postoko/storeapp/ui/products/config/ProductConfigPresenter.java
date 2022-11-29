@@ -1,18 +1,3 @@
-/*
- * Copyright 2018 Kaushik N. Sanji
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package com.example.Postoko.storeapp.ui.products.config;
 
@@ -36,14 +21,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * The Presenter class that implements {@link ProductConfigContract.Presenter} on the lines of
- * Model-View-Presenter architecture. This Presenter interfaces with the App repository {@link StoreRepository}
- * to create/modify the Product Entry in the database and updates the same to
- * the View {@link ProductConfigActivityFragment} to load and display it.
- *
- * @author Kaushik N Sanji
- */
+
 public class ProductConfigPresenter implements ProductConfigContract.Presenter {
 
     //Constant used for Logs

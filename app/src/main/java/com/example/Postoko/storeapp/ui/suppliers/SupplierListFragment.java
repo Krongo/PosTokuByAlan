@@ -1,6 +1,5 @@
 package com.example.Postoko.storeapp.ui.suppliers;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
@@ -55,40 +54,16 @@ public class SupplierListFragment extends Fragment
     //Adapter of the RecyclerView
     private SupplierListAdapter mAdapter;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
+
     public SupplierListFragment() {
     }
 
-    /**
-     * Static Factory constructor that creates an instance of {@link SupplierListFragment}
-     *
-     * @return Instance of {@link SupplierListFragment}
-     */
+
     public static SupplierListFragment newInstance() {
         return new SupplierListFragment();
     }
 
-    /**
-     * Called to have the fragment instantiate its user interface view.
-     * This is optional, and non-graphical fragments can return null (which
-     * is the default implementation).  This will be called between
-     * {@link #onCreate(Bundle)} and {@link #onActivityCreated(Bundle)}.
-     * <p>
-     * <p>If you return a View from here, you will later be called in
-     * {@link #onDestroyView} when the view is being released.
-     *
-     * @param inflater           The LayoutInflater object that can be used to inflate
-     *                           any views in the fragment,
-     * @param container          If non-null, this is the parent view that the fragment's
-     *                           UI should be attached to.  The fragment should not add the view itself,
-     *                           but this can be used to generate the LayoutParams of the view.
-     * @param savedInstanceState If non-null, this fragment is being re-constructed
-     *                           from a previous saved state as given here.
-     * @return Returns the View for the fragment's UI ('R.layout.layout_main_content_page')
-     */
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -119,10 +94,7 @@ public class SupplierListFragment extends Fragment
         return rootView;
     }
 
-    /**
-     * Method that initializes the SwipeRefreshLayout 'R.id.swipe_refresh_content_page'
-     * and its listener
-     */
+
     private void setupSwipeRefresh() {
         //Registering the refresh listener which triggers a new load on swipe to refresh
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -130,22 +102,12 @@ public class SupplierListFragment extends Fragment
         mSwipeRefreshLayout.setColorSchemeColors(ColorUtility.obtainColorsFromTypedArray(requireContext(), R.array.swipe_refresh_colors, R.color.colorPrimary));
     }
 
-    /**
-     * Method that initializes a RecyclerView with its Adapter for loading and displaying the list of Suppliers.
-     */
+
     private void setupRecyclerView() {
         //Creating a Vertical Linear Layout Manager with the default layout order
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(),
                 LinearLayoutManager.VERTICAL, false) {
-            /**
-             * Called when items have been added to the adapter. The LayoutManager may choose to
-             * requestLayout if the inserted items would require refreshing the currently visible set
-             * of child views. (e.g. currently empty space would be filled by appended items, etc.)
-             *
-             * @param recyclerView The {@link RecyclerView} this LayoutManager is bound to.
-             * @param positionStart The Start position from where the Items were added to the {@link RecyclerView}
-             * @param itemCount Number of Items added
-             */
+
             @Override
             public void onItemsAdded(RecyclerView recyclerView, int positionStart, int itemCount) {
                 if (getChildCount() > 0 && itemCount == 1) {
@@ -162,13 +124,7 @@ public class SupplierListFragment extends Fragment
                 }
             }
 
-            /**
-             * Called when items have been removed from the adapter.
-             *
-             * @param recyclerView The {@link RecyclerView} this LayoutManager is bound to.
-             * @param positionStart The Start position from where the Items were removed from the {@link RecyclerView}
-             * @param itemCount Number of Items removed
-             */
+
             @Override
             public void onItemsRemoved(RecyclerView recyclerView, int positionStart, int itemCount) {
                 if (getChildCount() > 0 && itemCount == 1) {
@@ -214,10 +170,7 @@ public class SupplierListFragment extends Fragment
         mPresenter.start();
     }
 
-    /**
-     * Called when the fragment is no longer in use.  This is called
-     * after {@link #onStop()} and before {@link #onDetach()}.
-     */
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -226,39 +179,27 @@ public class SupplierListFragment extends Fragment
         mPresenter.releaseResources();
     }
 
-    /**
-     * Method that returns the registered Presenter for this View.
-     *
-     * @return The registered Presenter for this View. Can be {@code null}
-     */
+
     @Nullable
     @Override
     public SupplierListContract.Presenter getPresenter() {
         return mPresenter;
     }
 
-    /**
-     * Method that registers the Presenter {@code presenter} with the View implementing {@link com.example.Postoko.storeapp.ui.BaseView}
-     *
-     * @param presenter Presenter instance implementing the {@link com.example.Postoko.storeapp.ui.BasePresenter}
-     */
+
     @Override
     public void setPresenter(SupplierListContract.Presenter presenter) {
         mPresenter = presenter;
     }
 
-    /**
-     * Called when a swipe gesture triggers a refresh.
-     */
+
     @Override
     public void onRefresh() {
         //Forcefully start a new load
         mPresenter.triggerSuppliersLoad(true);
     }
 
-    /**
-     * Method that displays the Progress indicator
-     */
+
     @Override
     public void showProgressIndicator() {
         //Enabling the Swipe to Refresh if disabled prior to showing the Progress indicator
@@ -271,22 +212,14 @@ public class SupplierListFragment extends Fragment
         }
     }
 
-    /**
-     * Method that hides the Progress indicator
-     */
+
     @Override
     public void hideProgressIndicator() {
         //Hiding the Progress indicator
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
-    /**
-     * Method invoked when an error is encountered during Supplier information
-     * retrieval or delete process.
-     *
-     * @param messageId String Resource of the error Message to be displayed
-     * @param args      Variable number of arguments to replace the format specifiers
-     */
+
     @Override
     public void showError(@StringRes int messageId, @Nullable Object... args) {
         if (getView() != null) {
@@ -314,10 +247,7 @@ public class SupplierListFragment extends Fragment
         }
     }
 
-    /**
-     * Method invoked when the Supplier List is empty. This should show a TextView with a
-     * Text that suggests Users to add Suppliers into the database.
-     */
+
     @Override
     public void showEmptyView() {
         //Hiding the RecyclerView
@@ -328,10 +258,7 @@ public class SupplierListFragment extends Fragment
         mSwipeRefreshLayout.setEnabled(false);
     }
 
-    /**
-     * Method invoked when we have the Supplier List. This should show the Supplier List and
-     * hide the Empty List TextView and Step Number Drawable.
-     */
+
     @Override
     public void hideEmptyView() {
         //Displaying the RecyclerView
@@ -340,24 +267,14 @@ public class SupplierListFragment extends Fragment
         mGroupEmptyList.setVisibility(View.GONE);
     }
 
-    /**
-     * Method that updates the RecyclerView's Adapter with new {@code supplierList} data.
-     *
-     * @param supplierList List of Suppliers defined by {@link SupplierLite}
-     *                     loaded from the database.
-     */
+
     @Override
     public void loadSuppliers(ArrayList<SupplierLite> supplierList) {
         //Submitting the new updated list to the Adapter
         mAdapter.submitList(supplierList);
     }
 
-    /**
-     * Method invoked when the user clicks on the FAB button to add a New Supplier
-     * into the database. This should
-     * launch the {@link SupplierConfigActivity}
-     * for configuring a New Supplier.
-     */
+
     @Override
     public void launchAddNewSupplier() {
         //Creating the Intent to launch SupplierConfigActivity
@@ -366,13 +283,7 @@ public class SupplierListFragment extends Fragment
         startActivityForResult(supplierConfigIntent, SupplierConfigActivity.REQUEST_ADD_SUPPLIER);
     }
 
-    /**
-     * Method invoked when the user clicks on "Edit" button or the Item View itself. This should
-     * launch the {@link SupplierConfigActivity}
-     * for the Supplier to be edited.
-     *
-     * @param supplierId The Primary key of the Supplier to be edited.
-     */
+
     @Override
     public void launchEditSupplier(int supplierId) {
         //Creating the Intent to launch SupplierConfigActivity
@@ -383,11 +294,7 @@ public class SupplierListFragment extends Fragment
         startActivityForResult(supplierConfigIntent, SupplierConfigActivity.REQUEST_EDIT_SUPPLIER);
     }
 
-    /**
-     * Method that displays a message on Success of adding a New Supplier.
-     *
-     * @param supplierCode String containing the code of the Supplier that was added successfully.
-     */
+
     @Override
     public void showAddSuccess(String supplierCode) {
         if (getView() != null) {
@@ -395,11 +302,7 @@ public class SupplierListFragment extends Fragment
         }
     }
 
-    /**
-     * Method that displays a message on Success of updating an Existing Supplier.
-     *
-     * @param supplierCode String containing the code of the Supplier that was updated successfully.
-     */
+
     @Override
     public void showUpdateSuccess(String supplierCode) {
         if (getView() != null) {
@@ -407,11 +310,7 @@ public class SupplierListFragment extends Fragment
         }
     }
 
-    /**
-     * Method that displays a message on Success of Deleting an Existing Supplier.
-     *
-     * @param supplierCode String containing the code of the Supplier that was deleted successfully.
-     */
+
     @Override
     public void showDeleteSuccess(String supplierCode) {
         if (getView() != null) {
@@ -419,24 +318,14 @@ public class SupplierListFragment extends Fragment
         }
     }
 
-    /**
-     * Method invoked when the user clicks on the Phone button. This should launch the Phone
-     * dialer passing in the phone number {@code phoneNumber}
-     *
-     * @param phoneNumber The Phone Number to dial.
-     */
+
     @Override
     public void dialPhoneNumber(String phoneNumber) {
         //Launching the Dialer passing in the Phone Number
         IntentUtility.dialPhoneNumber(requireActivity(), phoneNumber);
     }
 
-    /**
-     * Method invoked when the user clicks on the Email button. This should launch an Email
-     * activity passing in the "TO" Address {@code toEmailAddress}
-     *
-     * @param toEmailAddress The "TO" Address to send an email to.
-     */
+
     @Override
     public void composeEmail(String toEmailAddress) {
         //Launching an Email Activity passing in the Email Address
@@ -456,54 +345,20 @@ public class SupplierListFragment extends Fragment
         mPresenter.onActivityResult(requestCode, resultCode, data);
     }
 
-    /**
-     * {@link ListAdapter} class for RecyclerView to load the list of Suppliers to be displayed.
-     */
+
     private static class SupplierListAdapter extends ListAdapter<SupplierLite, SupplierListAdapter.ViewHolder> {
 
-        /**
-         * {@link DiffUtil.ItemCallback} for calculating the difference between two {@link SupplierLite} objects
-         */
+
         private static DiffUtil.ItemCallback<SupplierLite> DIFF_SUPPLIERS
                 = new DiffUtil.ItemCallback<SupplierLite>() {
-            /**
-             * Called to check whether two objects represent the same item.
-             * <p>
-             * For example, if your items have unique ids, this method should check their id equality.
-             *
-             * @param oldItem The item in the old list.
-             * @param newItem The item in the new list.
-             * @return True if the two items represent the same object or false if they are different.
-             *
-             * @see DiffUtil.Callback#areItemsTheSame(int, int)
-             */
+
             @Override
             public boolean areItemsTheSame(SupplierLite oldItem, SupplierLite newItem) {
                 //Returning the comparison of the Supplier's Id
                 return oldItem.getId() == newItem.getId();
             }
 
-            /**
-             * Called to check whether two items have the same data.
-             * <p>
-             * This information is used to detect if the contents of an item have changed.
-             * <p>
-             * This method to check equality instead of {@link Object#equals(Object)} so that you can
-             * change its behavior depending on your UI.
-             * <p>
-             * For example, if you are using DiffUtil with a
-             * {@link android.support.v7.widget.RecyclerView.Adapter RecyclerView.Adapter}, you should
-             * return whether the items' visual representations are the same.
-             * <p>
-             * This method is called only if {@link #areItemsTheSame(SupplierLite, SupplierLite)} returns {@code true} for
-             * these items.
-             *
-             * @param oldItem The item in the old list.
-             * @param newItem The item in the new list.
-             * @return True if the contents of the items are the same or false if they are different.
-             *
-             * @see DiffUtil.Callback#areContentsTheSame(int, int)
-             */
+
             @Override
             public boolean areContentsTheSame(SupplierLite oldItem, SupplierLite newItem) {
                 //Returning the comparison of entire Supplier
@@ -514,27 +369,14 @@ public class SupplierListFragment extends Fragment
         //Listener for the User actions on the Supplier List Items
         private SupplierListUserActionsListener mActionsListener;
 
-        /**
-         * Constructor of {@link SupplierListAdapter}
-         *
-         * @param userActionsListener Instance of {@link SupplierListUserActionsListener}
-         *                            to receive event callbacks for User Actions on Item Views
-         */
+
         SupplierListAdapter(SupplierListUserActionsListener userActionsListener) {
             super(DIFF_SUPPLIERS);
             //Registering the User Actions Listener
             mActionsListener = userActionsListener;
         }
 
-        /**
-         * Called when RecyclerView needs a new {@link ViewHolder} of the given type to represent
-         * an item.
-         *
-         * @param parent   The ViewGroup into which the new View will be added after it is bound to
-         *                 an adapter position.
-         * @param viewType The view type of the new View.
-         * @return A new ViewHolder that holds a View of the given view type.
-         */
+
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -545,15 +387,7 @@ public class SupplierListFragment extends Fragment
             return new ViewHolder(itemView);
         }
 
-        /**
-         * Called by RecyclerView to display the data at the specified position. This method should
-         * update the contents of the {@link ViewHolder#itemView} to reflect the item at the given
-         * position.
-         *
-         * @param holder   The ViewHolder which should be updated to represent the contents of the
-         *                 item at the given position in the data set.
-         * @param position The position of the item within the adapter's data set.
-         */
+
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             //Get the data at the position
@@ -563,9 +397,7 @@ public class SupplierListFragment extends Fragment
             holder.bind(supplierLite);
         }
 
-        /**
-         * ViewHolder class for caching View components of the template item view 'R.layout.item_supplier_list'
-         */
+
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             //References to the Views required, in the Item View
             private TextView mTextViewSupplierName;
@@ -576,11 +408,7 @@ public class SupplierListFragment extends Fragment
             private Button mButtonDelete;
             private Button mButtonEdit;
 
-            /**
-             * Constructor of {@link ViewHolder}
-             *
-             * @param itemView Inflated Instance of the Item View 'R.layout.item_supplier_list'
-             */
+
             ViewHolder(View itemView) {
                 super(itemView);
 
@@ -601,11 +429,7 @@ public class SupplierListFragment extends Fragment
                 itemView.setOnClickListener(this);
             }
 
-            /**
-             * Method that binds the item views with the data {@link SupplierLite} at the position.
-             *
-             * @param supplierLite The {@link SupplierLite} data at the item position
-             */
+
             void bind(SupplierLite supplierLite) {
                 //Get the Resources
                 Resources resources = itemView.getContext().getResources();
@@ -646,11 +470,7 @@ public class SupplierListFragment extends Fragment
 
             }
 
-            /**
-             * Called when a view has been clicked.
-             *
-             * @param view The view that was clicked.
-             */
+
             @Override
             public void onClick(View view) {
                 //Checking if the adapter position is valid
@@ -695,21 +515,10 @@ public class SupplierListFragment extends Fragment
         }
     }
 
-    /**
-     * Listener that implements {@link SupplierListUserActionsListener} to receive
-     * event callbacks for User actions on RecyclerView list of Suppliers.
-     */
+
     private class UserActionsListener implements SupplierListUserActionsListener {
 
-        /**
-         * Callback Method of {@link SupplierListUserActionsListener} invoked when
-         * the user clicks on "Edit" button or the Item View itself. This should
-         * launch the {@link SupplierConfigActivity}
-         * for the Supplier to be edited.
-         *
-         * @param itemPosition The adapter position of the Item View clicked
-         * @param supplier     The {@link SupplierLite} associated with the Item View clicked.
-         */
+
         @Override
         public void onEditSupplier(int itemPosition, SupplierLite supplier) {
             //Delegating to the Presenter to handle the event

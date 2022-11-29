@@ -40,6 +40,7 @@ import com.example.Postoko.storeapp.data.local.LoaderProvider;
 import com.example.Postoko.storeapp.data.local.contracts.ProductContract;
 import com.example.Postoko.storeapp.data.local.contracts.StoreContract;
 import com.example.Postoko.storeapp.data.local.models.ProductLite;
+import com.example.Postoko.storeapp.ui.HomeActivity;
 import com.example.Postoko.storeapp.ui.products.config.ProductConfigActivity;
 import com.example.Postoko.storeapp.utils.AppConstants;
 
@@ -110,8 +111,8 @@ public class ProductListPresenter
     }
 
     /**
-     * Method invoked by the {@link com.example.Postoko.storeapp.ui.MainActivity} displaying the ViewPager.
-     * This is called when the User clicks on the Fab "+" button shown by the {@link com.example.Postoko.storeapp.ui.MainActivity}
+     * Method invoked by the {@link HomeActivity} displaying the ViewPager.
+     * This is called when the User clicks on the Fab "+" button shown by the {@link HomeActivity}
      */
     @Override
     public void onFabAddClicked() {
@@ -119,8 +120,8 @@ public class ProductListPresenter
     }
 
     /**
-     * Method invoked by the {@link com.example.Postoko.storeapp.ui.MainActivity} displaying the ViewPager.
-     * This is called when the User clicks on the Refresh Menu icon shown by the {@link com.example.Postoko.storeapp.ui.MainActivity}
+     * Method invoked by the {@link HomeActivity} displaying the ViewPager.
+     * This is called when the User clicks on the Refresh Menu icon shown by the {@link HomeActivity}
      */
     @Override
     public void onRefreshMenuClicked() {

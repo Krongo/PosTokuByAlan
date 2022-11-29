@@ -1,5 +1,4 @@
 
-
 package com.example.Postoko.storeapp.ui.products.config;
 
 import android.support.annotation.NonNull;
@@ -8,10 +7,7 @@ import com.example.Postoko.storeapp.data.local.models.ProductImage;
 
 import java.util.ArrayList;
 
-/**
- * Defines Navigation Actions that can be invoked from {@link ProductConfigActivity}
- *
- */
+
 public interface ProductConfigNavigator {
 
     /**

@@ -47,6 +47,7 @@ import static com.example.Postoko.storeapp.data.local.utils.SqliteUtility.SPACE;
 import static com.example.Postoko.storeapp.data.local.utils.SqliteUtility.TEXT;
 import static com.example.Postoko.storeapp.data.local.utils.SqliteUtility.UNIQUE;
 
+
 public class StoreDbHelper extends SQLiteOpenHelper {
     //Constant used for logs
     private static final String LOG_TAG = StoreDbHelper.class.getSimpleName();
@@ -185,6 +186,14 @@ public class StoreDbHelper extends SQLiteOpenHelper {
     //Stores the singleton instance of this class
     private static volatile StoreDbHelper INSTANCE;
 
+    /**
+     * Create a helper object to create, open, and/or manage a database.
+     * This method always returns very quickly.  The database is not actually
+     * created or opened until one of {@link #getWritableDatabase} or
+     * {@link #getReadableDatabase} is called.
+     *
+     * @param context to use to open or create the database
+     */
     private StoreDbHelper(Context context) {
         //Propagating the call to super, to initialize the database
         super(context,
@@ -194,6 +203,12 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         );
     }
 
+    /**
+     * Static Singleton Constructor that creates a single instance of {@link StoreDbHelper}.
+     *
+     * @param context is the {@link Context} of the Activity used to open/create the database
+     * @return New or existing instance of {@link StoreDbHelper}
+     */
     public static synchronized StoreDbHelper getInstance(Context context) {
         if (INSTANCE == null) {
             //When instance is not available
@@ -210,6 +225,12 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         return INSTANCE;
     }
 
+    /**
+     * Called when the database is created for the first time. This is where the
+     * creation of tables and the initial population of the tables should happen.
+     *
+     * @param db The database.
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         //Executing the statements to create the tables in the database: START
@@ -234,6 +255,9 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         insertPredefinedContactTypes();
     }
 
+    /**
+     * Method that loads a predefined set of categories into the 'item_category' table
+     */
     private void insertPredefinedCategories() {
         //Executing in the background thread
         AppExecutors.getInstance().getDiskIO().execute(() -> {
@@ -292,6 +316,9 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         });
     }
 
+    /**
+     * Method that loads a predefined set of contact types into the 'contact_type' table
+     */
     private void insertPredefinedContactTypes() {
         //Executing in the background thread
         AppExecutors.getInstance().getDiskIO().execute(() -> {
@@ -354,6 +381,7 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         });
     }
 
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //Dropping the Database tables and recreating it on Version Upgrade
@@ -375,6 +403,24 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         //Recreating all the tables
         onCreate(db);
     }
+
+    /**
+     * Called when the database connection is being configured, to enable features such as
+     * write-ahead logging or foreign key support.
+     * <p>
+     * This method is called before {@link #onCreate}, {@link #onUpgrade}, {@link #onDowngrade}, or
+     * {@link #onOpen} are called. It should not modify the database except to configure the
+     * database connection as required.
+     * </p>
+     * <p>
+     * This method should only call methods that configure the parameters of the database
+     * connection, such as {@link SQLiteDatabase#enableWriteAheadLogging}
+     * {@link SQLiteDatabase#setForeignKeyConstraintsEnabled}, {@link SQLiteDatabase#setLocale},
+     * {@link SQLiteDatabase#setMaximumSize}, or executing PRAGMA statements.
+     * </p>
+     *
+     * @param db The database.
+     */
     @Override
     public void onConfigure(SQLiteDatabase db) {
         //Enabling the Foreign Key Constraints
@@ -389,8 +435,24 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Implementation of {@link SQLiteDatabase.CursorFactory} to log the queries fired
+     * when executed in debug mode.
+     */
     private static class AppCursorFactory implements SQLiteDatabase.CursorFactory {
 
+        /**
+         * Execute a query and provide access to its result set through a Cursor
+         * interface.
+         *
+         * @param db          a reference to a Database object that is already constructed
+         *                    and opened.
+         * @param masterQuery A driver for SQLiteCursors that is used to create them and gets notified
+         *                    by the cursors it creates on significant events in their lifetimes.
+         * @param editTable   The name of the table used for this query
+         * @param query       The {@link SQLiteQuery} object associated with this cursor object.
+         * @return Returns a {@link SQLiteCursor} instance to the query.
+         */
         @Override
         public Cursor newCursor(SQLiteDatabase db,
                                 SQLiteCursorDriver masterQuery,

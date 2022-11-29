@@ -1,18 +1,4 @@
-/*
- * Copyright 2018 Kaushik N. Sanji
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 
 package com.example.Postoko.storeapp.utils;
 
@@ -30,9 +16,7 @@ import android.support.v4.os.EnvironmentCompat;
 import java.io.File;
 import java.io.IOException;
 
-/**
 
- */
 public final class FileStorageUtility {
 
     /**
@@ -43,13 +27,7 @@ public final class FileStorageUtility {
         throw new AssertionError("No " + this.getClass().getCanonicalName() + " instances for you!");
     }
 
-    /**
-     * Method that creates directory and its parent directories if the mentioned path {@code storageDir} does not exist.
-     *
-     * @param storageDir The {@link File} instance of a directory path.
-     * @return Boolean that indicates whether the directory path was created successfully or not.
-     * <br/><b>TRUE</b> when the directory path is created successfully or already exists; <b>FALSE</b> otherwise.
-     */
+
     private static boolean createDirectoryIfNotExists(File storageDir) {
         if (!storageDir.exists() && !storageDir.mkdirs()) {
             //Returning FALSE when the directory path could not be created successfully
